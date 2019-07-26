@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.hexad.intrw.service.IBakeryService;
+import com.hexad.intrw.service.impl.BakeryService;
+
 
 public class SpaceOptimizedShippingStrategy {
 
@@ -14,6 +17,11 @@ public class SpaceOptimizedShippingStrategy {
 	@Test
 	public void test_with_zero_quantity(){
 		//this should throw exception
+	}
+	
+	@Test
+	public void test_with_positive_unacceptable_quantity(){
+		//this should throw exception when ordered quantity is less than pack of least size 
 	}
 	
 	@Test
@@ -56,5 +64,16 @@ public class SpaceOptimizedShippingStrategy {
 		//e.g. 10 VS5
 		//should run successfully
 		assertEquals(null, "10 VS5 $17.98 2 x 5 $8.99 14 MB11 $54.8 1 x 8 $24.95 3 x 2 $9.95 13 CF $25.85 2 x 5 $9.95 1 x 3 $5.95");
+	}
+	
+	
+	/**
+	 * Functional Limitation Test cases
+	 */
+	
+	@Test
+	public void test_with_limitation(){
+		IBakeryService bakery = new BakeryService();
+		bakery.order();
 	}
 }

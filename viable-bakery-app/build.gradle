@@ -25,5 +25,9 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    
+    // Lombok dependency	
+  	compileOnly 'org.projectlombok:lombok:1.16.18'
+    
 }
 
