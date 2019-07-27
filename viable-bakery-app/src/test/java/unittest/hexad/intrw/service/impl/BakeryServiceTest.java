@@ -37,7 +37,7 @@ public class BakeryServiceTest {
 	private void execute(String code){
 		IShippingStrategy spaceOptimizedStrategy = new SpaceOptimizedShippingStrategy();
 		String space = " ";
-		for(int i=0; i<30; i++){
+		for(int i=0; i<100; i++){
 			String order = i + space + code;
 			IBakeryService bakeryService = new BakeryService(spaceOptimizedStrategy, order);
 			bakeryService.order();

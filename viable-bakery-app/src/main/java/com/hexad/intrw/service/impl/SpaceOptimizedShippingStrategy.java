@@ -2,6 +2,7 @@ package com.hexad.intrw.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import lombok.extern.java.Log;
@@ -25,10 +26,10 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 
 	private void findOptimizedBreakup(int orderedQuantity, BakeryProduct orderedProduct) {
 		Map<Pack, Integer> finalShipping = new HashMap<Pack, Integer>();
+		LinkedList<Pack> stack = new LinkedList<Pack>();
 		Pack smallestPack = orderedProduct.getSmallestPack();
  		ArrayList<Pack> sortedPacks = (ArrayList<Pack>) orderedProduct.getPacks();
 		int remainder = orderedQuantity;
-		Pack lastPushedPack = null;
 		for(int i=0; i<sortedPacks.size(); i++){
 			Pack pack = sortedPacks.get(i);
 			int eachPackQuantity = pack.getQuantity();
@@ -39,7 +40,7 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 					System.out.println("xx");
 				}
 				else{
-					lastPushedPack = pack;
+					stack.push(pack);
 					finalShipping.put(pack, Integer.valueOf(remainder/eachPackQuantity));
 					remainder = remainder%eachPackQuantity;
 				}
@@ -55,10 +56,12 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 					System.out.println("Cannot fulfill order " + orderedQuantity);
 				}
 				else{
+					Pack lastPushedPack = stack.peekFirst();
 					i = sortedPacks.indexOf(lastPushedPack);//this will be i++ in for loop, so we will get right index
 					if(finalShipping.containsKey(lastPushedPack)){
 						Integer q = finalShipping.get(lastPushedPack);
 						if(q == 1){
+							stack.pop();
 							finalShipping.remove(lastPushedPack);
 						}
 						else{
@@ -77,7 +80,7 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 			}
 			
 			if(total != orderedQuantity){
-				System.out.println("Failure for "+ orderedQuantity);
+				System.out.println("\n ************  Failure for "+ orderedQuantity + "************ \n");
 			}
 		}
 		
