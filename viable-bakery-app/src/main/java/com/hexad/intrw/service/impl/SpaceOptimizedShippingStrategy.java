@@ -26,17 +26,17 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 
 	private void findOptimizedBreakup(int orderedQuantity, BakeryProduct orderedProduct) {
 		Map<Pack, Integer> finalShipping = new HashMap<Pack, Integer>();
- 		ArrayList<Pack> sortedPacks = new ArrayList<Pack>(orderedProduct.getPacks());
-		
+ 		ArrayList<Pack> packs = new ArrayList<Pack>(orderedProduct.getPacks());
+ 		ArrayList<Pack> sortedPacks = getDescending(packs);
 		int remainder = orderedQuantity;
 		Pack lastPushedPack = null;
 		for(int i=0; i<sortedPacks.size(); i++){
 			Pack pack = sortedPacks.get(i);
 			int eachPackQuantity = pack.getQuantity();
-			if(eachPackQuantity < remainder){
-				remainder = eachPackQuantity%remainder;
+			if(eachPackQuantity <= remainder){
 				lastPushedPack = pack;
-				finalShipping.put(pack, Integer.valueOf(eachPackQuantity/remainder));
+				finalShipping.put(pack, Integer.valueOf(remainder/eachPackQuantity));
+				remainder = remainder%eachPackQuantity;
 			}
 			
 			if(remainder == 0){
@@ -48,16 +48,36 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 					throw new BakeryException("Cannot Fulfill the order.");
 				}
 				else{
-					i = i-1;
-					int quantity = finalShipping.remove(lastPushedPack);
-					remainder = lastPushedPack.getQuantity() * quantity + remainder;
+					i = sortedPacks.indexOf(lastPushedPack);//this will be i++ in for loop, so we will get right index
+					if(finalShipping.containsKey(lastPushedPack)){
+						Integer q = finalShipping.get(lastPushedPack);
+						if(q == 1){
+							finalShipping.remove(lastPushedPack);
+						}
+						else{
+							finalShipping.put(lastPushedPack, --q);
+						}
+						remainder = lastPushedPack.getQuantity() + remainder;
+					}
 				}
 			}
-			
-			
 		}
 		
+		System.out.println(finalShipping);
 		
+		
+	}
+
+	private ArrayList<Pack> getDescending(ArrayList<Pack> packsss) {
+		
+		Pack pack1 = new Pack(2,9.95);
+		Pack pack2 = new Pack(5,16.95);
+		Pack pack3 = new Pack(8,24.99);
+		ArrayList<Pack> packs = new ArrayList<Pack>();
+		packs.add(0, pack3);
+		packs.add(1, pack2);
+		packs.add(2, pack1);
+		return packs;
 	}
 	
 

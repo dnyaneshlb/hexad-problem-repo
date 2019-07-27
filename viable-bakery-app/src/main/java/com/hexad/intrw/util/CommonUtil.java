@@ -55,9 +55,9 @@ public class CommonUtil {
 	public static Product findOrderedProductByProductCode(String orderedProductCode) {
 		Product product = null ;
 		switch(orderedProductCode){
-			case "VS5" : product = AppData.vegemiteScroll;
-			case "MB11" : product = AppData.blueberryMuffin;
-			case "CF" : product = AppData.croissant;
+			case "VS5" : product = AppData.vegemiteScroll;break;
+			case "MB11" : product = AppData.blueberryMuffin;break;
+			case "CF" : product = AppData.croissant;break;
 			//there is no need to add default case since we are very much sure that 
 			//our order validation service has taken care of rejecting orders with wrong product code.
 		}
