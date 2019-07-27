@@ -15,15 +15,15 @@ public class BakeryMain {
 		//load the data structures
 		CommonUtil.bootstrapInitData();
 		IOrderValidationService validationService = new OrderValidationService();
-		String userOrder = "14 MB11";
+		String userOrder = "14 MB101";
 		try {
-			if(validationService.validate(userOrder)){
+			if(validationService.isValidOrder(userOrder)){
 				IShippingStrategy spaceOptimizedStrategy = new SpaceOptimizedShippingStrategy();
 				IBakeryService bakeryService = new BakeryService(spaceOptimizedStrategy, userOrder);
 				bakeryService.order();
 			}
 			else {
-				throw new InvalidOrderException(userOrder + " is invalid order. Correct way to place order is 10 VS5");
+				throw new InvalidOrderException(userOrder + " is invalid order. Correct way to place order is 'Quantity ProductCode'. e.g. 10 MB11");
 			}
 		} catch ( Exception e) {
 			System.out.println(e.getMessage());
