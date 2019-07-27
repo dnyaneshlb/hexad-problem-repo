@@ -26,6 +26,7 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 
 	private void findOptimizedBreakup(int orderedQuantity, BakeryProduct orderedProduct) {
 		Map<Pack, Integer> finalShipping = new HashMap<Pack, Integer>();
+		Pack smallestPack = orderedProduct.getSmallestPack();
  		ArrayList<Pack> packs = new ArrayList<Pack>(orderedProduct.getPacks());
  		ArrayList<Pack> sortedPacks = getDescending(packs);
 		int remainder = orderedQuantity;
@@ -34,16 +35,23 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 			Pack pack = sortedPacks.get(i);
 			int eachPackQuantity = pack.getQuantity();
 			if(eachPackQuantity <= remainder){
-				lastPushedPack = pack;
-				finalShipping.put(pack, Integer.valueOf(remainder/eachPackQuantity));
-				remainder = remainder%eachPackQuantity;
+				if(((remainder%eachPackQuantity) !=0) 
+						&& ((remainder%eachPackQuantity) < smallestPack.getQuantity()) 
+						&& remainder/eachPackQuantity == 1){
+					System.out.println("xx");
+				}
+				else{
+					lastPushedPack = pack;
+					finalShipping.put(pack, Integer.valueOf(remainder/eachPackQuantity));
+					remainder = remainder%eachPackQuantity;
+				}
 			}
 			
 			if(remainder == 0){
 				break;
 			}
 			
-			if(remainder !=0 && pack.equals(orderedProduct.getSmallestPack())){
+			if(remainder !=0 && pack.equals(smallestPack)){
 				if(finalShipping.isEmpty()){
 					throw new BakeryException("Cannot Fulfill the order.");
 				}
