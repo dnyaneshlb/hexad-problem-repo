@@ -23,7 +23,8 @@ public class CommonUtil {
 		packs.add(pack1);
 		packs.add(pack2);
 		packs.add(pack3);
-		Product croissant = new BakeryProduct("Croissant","CF", packs);
+		BakeryProduct croissant = new BakeryProduct("Croissant","CF", packs);
+		croissant.setSmallestPack(pack1);
 		return croissant;
 	}
 
@@ -34,7 +35,9 @@ public class CommonUtil {
 		Set<Pack> packs = new HashSet<Pack>();
 		packs.add(pack1);
 		packs.add(pack2);
-		Product blueberryMuffin = new BakeryProduct("Blueberry Muffin", "MB11", packs);
+		packs.add(pack3);
+		BakeryProduct blueberryMuffin = new BakeryProduct("Blueberry Muffin", "MB11", packs);
+		blueberryMuffin.setSmallestPack(pack1);
 		return blueberryMuffin;
 	}
 
@@ -44,7 +47,8 @@ public class CommonUtil {
 		Set<Pack> packs = new HashSet<Pack>();
 		packs.add(pack1);
 		packs.add(pack2);
-		Product vegemiteScroll = new BakeryProduct("Vegemite Scroll", "VS5", packs);
+		BakeryProduct vegemiteScroll = new BakeryProduct("Vegemite Scroll", "VS5", packs);
+		vegemiteScroll.setSmallestPack(pack1);
 		return vegemiteScroll;
 	}
 
