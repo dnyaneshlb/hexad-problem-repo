@@ -1,6 +1,6 @@
 package com.hexad.intrw.model;
 
-import java.util.Set;
+import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,11 +19,11 @@ public class BakeryProduct extends Product{
 	private String name;
 	
 	@NonNull
-	private Set<Pack> packs;
+	private List<Pack> packs;
 	
 	private Pack smallestPack;
 	
-	public BakeryProduct(String name, String code, Set<Pack> packs){
+	public BakeryProduct(String name, String code, List<Pack> packs){
 		this.name = name;
 		this.code = code;
 		this.packs = packs;

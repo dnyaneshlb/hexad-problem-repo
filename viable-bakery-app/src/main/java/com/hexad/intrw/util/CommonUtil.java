@@ -1,7 +1,7 @@
 package com.hexad.intrw.util;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hexad.intrw.model.BakeryProduct;
 import com.hexad.intrw.model.Pack;
@@ -19,7 +19,7 @@ public class CommonUtil {
 		Pack pack1 = new Pack(3,5.95);
 		Pack pack2 = new Pack(5,9.95);
 		Pack pack3 = new Pack(9,16.99);
-		Set<Pack> packs = new HashSet<Pack>();
+		List<Pack> packs = new ArrayList<Pack>();
 		packs.add(pack3);
 		packs.add(pack2);
 		packs.add(pack1);
@@ -32,7 +32,7 @@ public class CommonUtil {
 		Pack pack1 = new Pack(2,9.95);
 		Pack pack2 = new Pack(5,16.95);
 		Pack pack3 = new Pack(8,24.99);
-		Set<Pack> packs = new HashSet<Pack>();
+		List<Pack> packs = new ArrayList<Pack>();
 		packs.add(pack3);
 		packs.add(pack2);
 		packs.add(pack1);
@@ -44,9 +44,9 @@ public class CommonUtil {
 	private static Product getVegemiteScroll() {
 		Pack pack1 = new Pack(3,6.99);
 		Pack pack2 = new Pack(5,8.99);
-		Set<Pack> packs = new HashSet<Pack>();
-		packs.add(pack1);
+		List<Pack> packs = new ArrayList<Pack>();
 		packs.add(pack2);
+		packs.add(pack1);
 		BakeryProduct vegemiteScroll = new BakeryProduct("Vegemite Scroll", "VS5", packs);
 		vegemiteScroll.setSmallestPack(pack1);
 		return vegemiteScroll;

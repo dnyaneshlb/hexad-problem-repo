@@ -6,7 +6,6 @@ import java.util.Map;
 
 import lombok.extern.java.Log;
 
-import com.hexad.intrw.exception.BakeryException;
 import com.hexad.intrw.model.BakeryProduct;
 import com.hexad.intrw.model.Pack;
 import com.hexad.intrw.model.Product;
@@ -27,17 +26,16 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 	private void findOptimizedBreakup(int orderedQuantity, BakeryProduct orderedProduct) {
 		Map<Pack, Integer> finalShipping = new HashMap<Pack, Integer>();
 		Pack smallestPack = orderedProduct.getSmallestPack();
- 		ArrayList<Pack> packs = new ArrayList<Pack>(orderedProduct.getPacks());
- 		ArrayList<Pack> sortedPacks = getDescending(packs);
+ 		ArrayList<Pack> sortedPacks = (ArrayList<Pack>) orderedProduct.getPacks();
 		int remainder = orderedQuantity;
 		Pack lastPushedPack = null;
 		for(int i=0; i<sortedPacks.size(); i++){
 			Pack pack = sortedPacks.get(i);
 			int eachPackQuantity = pack.getQuantity();
-			if(eachPackQuantity <= remainder){
+			if(remainder >= eachPackQuantity){
 				if(((remainder%eachPackQuantity) !=0) 
 						&& ((remainder%eachPackQuantity) < smallestPack.getQuantity()) 
-						&& remainder/eachPackQuantity == 1){
+						&& pack.equals(smallestPack)){
 					System.out.println("xx");
 				}
 				else{
@@ -53,7 +51,8 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 			
 			if(remainder !=0 && pack.equals(smallestPack)){
 				if(finalShipping.isEmpty()){
-					throw new BakeryException("Cannot Fulfill the order.");
+					//throw new BakeryException("Cannot Fulfill the order.");
+					System.out.println("Cannot fulfill order " + orderedQuantity);
 				}
 				else{
 					i = sortedPacks.indexOf(lastPushedPack);//this will be i++ in for loop, so we will get right index
@@ -71,22 +70,19 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 			}
 		}
 		
-		System.out.println(finalShipping);
-		
+		if(!finalShipping.isEmpty()){
+			int total = 0;
+			for(Pack pack :finalShipping.keySet()){
+				total = total + (pack.getQuantity() * finalShipping.get(pack));
+			}
+			
+			if(total != orderedQuantity){
+				System.out.println("Failure for "+ orderedQuantity);
+			}
+		}
 		
 	}
 
-	private ArrayList<Pack> getDescending(ArrayList<Pack> packsss) {
-		
-		Pack pack1 = new Pack(2,9.95);
-		Pack pack2 = new Pack(5,16.95);
-		Pack pack3 = new Pack(8,24.99);
-		ArrayList<Pack> packs = new ArrayList<Pack>();
-		packs.add(0, pack3);
-		packs.add(1, pack2);
-		packs.add(2, pack1);
-		return packs;
-	}
 	
 
 }
