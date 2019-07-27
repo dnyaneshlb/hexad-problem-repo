@@ -20,9 +20,9 @@ public class CommonUtil {
 		Pack pack2 = new Pack(5,9.95);
 		Pack pack3 = new Pack(9,16.99);
 		Set<Pack> packs = new HashSet<Pack>();
-		packs.add(pack1);
-		packs.add(pack2);
 		packs.add(pack3);
+		packs.add(pack2);
+		packs.add(pack1);
 		BakeryProduct croissant = new BakeryProduct("Croissant","CF", packs);
 		croissant.setSmallestPack(pack1);
 		return croissant;
@@ -33,9 +33,9 @@ public class CommonUtil {
 		Pack pack2 = new Pack(5,16.95);
 		Pack pack3 = new Pack(8,24.99);
 		Set<Pack> packs = new HashSet<Pack>();
-		packs.add(pack1);
-		packs.add(pack2);
 		packs.add(pack3);
+		packs.add(pack2);
+		packs.add(pack1);
 		BakeryProduct blueberryMuffin = new BakeryProduct("Blueberry Muffin", "MB11", packs);
 		blueberryMuffin.setSmallestPack(pack1);
 		return blueberryMuffin;
