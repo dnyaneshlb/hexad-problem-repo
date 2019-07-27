@@ -15,7 +15,7 @@ public class BakeryMain {
 		//load the data structures
 		CommonUtil.bootstrapInitData();
 		IOrderValidationService validationService = new OrderValidationService();
-		String userOrder = "10 VS5";
+		String userOrder = "6 MB11";
 		try {
 			if(validationService.validate(userOrder)){
 				IShippingStrategy spaceOptimizedStrategy = new SpaceOptimizedShippingStrategy();

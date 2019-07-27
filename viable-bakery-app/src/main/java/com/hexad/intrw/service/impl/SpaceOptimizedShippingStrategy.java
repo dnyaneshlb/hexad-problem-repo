@@ -29,11 +29,13 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
  		ArrayList<Pack> sortedPacks = new ArrayList<Pack>(orderedProduct.getPacks());
 		
 		int remainder = orderedQuantity;
+		Pack lastPushedPack = null;
 		for(int i=0; i<sortedPacks.size(); i++){
 			Pack pack = sortedPacks.get(i);
 			int eachPackQuantity = pack.getQuantity();
 			if(eachPackQuantity < remainder){
 				remainder = eachPackQuantity%remainder;
+				lastPushedPack = pack;
 				finalShipping.put(pack, Integer.valueOf(eachPackQuantity/remainder));
 			}
 			
@@ -44,6 +46,11 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 			if(remainder !=0 && pack.equals(orderedProduct.getSmallestPack())){
 				if(finalShipping.isEmpty()){
 					throw new BakeryException("Cannot Fulfill the order.");
+				}
+				else{
+					i = i-1;
+					int quantity = finalShipping.remove(lastPushedPack);
+					remainder = lastPushedPack.getQuantity() * quantity + remainder;
 				}
 			}
 			
