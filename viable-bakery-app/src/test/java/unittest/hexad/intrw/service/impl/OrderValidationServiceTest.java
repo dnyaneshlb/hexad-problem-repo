@@ -71,7 +71,6 @@ public class OrderValidationServiceTest {
 	}
 	
 	
-	
 	/**
 	 * Positive test cases.
 	 */

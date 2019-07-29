@@ -23,7 +23,9 @@ public class BakeryMain {
 		//load the data structures
 		CommonUtil.bootstrapInitData();
 		IOrderValidationService validationService = new OrderValidationService();
-		String userOrder = "14 MB11";
+		String userOrder = getUserInput();
+		
+		userOrder = "26 MB11";
 		log.info("order received : "+ userOrder);
 		try {
 			if(validationService.isValidOrder(userOrder)){
@@ -62,5 +64,10 @@ public class BakeryMain {
 		catch ( Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	private static String getUserInput() {
+		
+		return null;
 	}
 }
