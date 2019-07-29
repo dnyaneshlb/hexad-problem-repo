@@ -13,7 +13,7 @@ import lombok.NonNull;
 public class BakeryProduct extends Product{
 	
 	@NonNull
-	private String code;
+	private ProductCode code;
 	
 	@NonNull
 	private String name;
@@ -23,7 +23,7 @@ public class BakeryProduct extends Product{
 	
 	private Pack smallestPack;
 	
-	public BakeryProduct(String name, String code, List<Pack> packs){
+	public BakeryProduct(String name, ProductCode code, List<Pack> packs){
 		this.name = name;
 		this.code = code;
 		this.packs = packs;

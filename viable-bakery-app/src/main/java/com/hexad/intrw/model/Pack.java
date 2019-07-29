@@ -1,5 +1,7 @@
 package com.hexad.intrw.model;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Pack {
 	private int quantity;
 	
-	private double price; 
+	private BigDecimal price; 
 	
 	//TODO: I should not be able to create pack with same quantity but diffrent price in same system.
 }

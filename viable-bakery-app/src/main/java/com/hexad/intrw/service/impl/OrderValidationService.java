@@ -2,14 +2,19 @@ package com.hexad.intrw.service.impl;
 
 import java.util.Arrays;
 
+import lombok.extern.java.Log;
+
 import com.hexad.intrw.model.ProductCode;
 import com.hexad.intrw.service.IOrderValidationService;
 import com.hexad.intrw.util.CommonUtil;
 
+@Log
 public class OrderValidationService implements IOrderValidationService{
 
 	@Override
 	public boolean isValidOrder(String userOrder) {
+		log.info("Starting order valiation : " + userOrder );
+		
 		//check null or empty
 		if(CommonUtil.isNullOrEmpty(userOrder)) return false;
 		
@@ -39,8 +44,9 @@ public class OrderValidationService implements IOrderValidationService{
 			
 		
 		//check second element belongs to product code
-		if(!Arrays.asList(ProductCode.values()).contains(code)) return false;
+		if(!Arrays.asList(ProductCode.values()).contains(ProductCode.valueOf(code))) return false;
 		
+		log.info("Order validation completed sucessfully.");
 		return true;
 	}
 	

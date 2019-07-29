@@ -16,15 +16,15 @@ import com.hexad.intrw.service.IShippingStrategy;
 public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 
 	@Override
-	public void ship(int orderedQuantity, Product orderedProduct) {
+	public Map<Pack, Integer> ship(int orderedQuantity, Product orderedProduct) {
 		BakeryProduct product = (BakeryProduct)orderedProduct;
 		log.info("Shipping " + product.getName() +" with quantity "+ orderedQuantity);
 		
-		findOptimizedBreakup(orderedQuantity, product);
-		
+		Map<Pack, Integer> finalShipping = findOptimizedBreakup(orderedQuantity, product);
+		return finalShipping;
 	}
 
-	private void findOptimizedBreakup(int orderedQuantity, BakeryProduct orderedProduct) {
+	private Map<Pack, Integer> findOptimizedBreakup(int orderedQuantity, BakeryProduct orderedProduct) {
 		Map<Pack, Integer> finalShipping = new HashMap<Pack, Integer>();
 		LinkedList<Pack> stack = new LinkedList<Pack>();
 		Pack smallestPack = orderedProduct.getSmallestPack();
@@ -37,7 +37,7 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 				if(((remainder%eachPackQuantity) !=0) 
 						&& ((remainder%eachPackQuantity) < smallestPack.getQuantity()) 
 						&& pack.equals(smallestPack)){
-					System.out.println("xx");
+					//System.out.println("xx");
 				}
 				else{
 					stack.push(pack);
@@ -53,7 +53,8 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 			if(remainder !=0 && pack.equals(smallestPack)){
 				if(finalShipping.isEmpty()){
 					//throw new BakeryException("Cannot Fulfill the order.");
-					System.out.println("Cannot fulfill order " + orderedQuantity);
+					log.info("Cannot fulfill order quantity :" + orderedQuantity);
+					return null;
 				}
 				else{
 					Pack lastPushedPack = stack.peekFirst();
@@ -73,17 +74,8 @@ public class SpaceOptimizedShippingStrategy implements IShippingStrategy{
 			}
 		}
 		
-		if(!finalShipping.isEmpty()){
-			int total = 0;
-			for(Pack pack :finalShipping.keySet()){
-				total = total + (pack.getQuantity() * finalShipping.get(pack));
-			}
-			
-			if(total != orderedQuantity){
-				System.out.println("\n ************  Failure for "+ orderedQuantity + "************ \n");
-			}
-		}
 		
+		return finalShipping;
 	}
 
 	

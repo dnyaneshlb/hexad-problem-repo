@@ -1,4 +1,11 @@
+import java.math.BigDecimal;
+import java.util.Map;
+
+import lombok.extern.java.Log;
+
+import com.hexad.intrw.exception.BakeryException;
 import com.hexad.intrw.exception.InvalidOrderException;
+import com.hexad.intrw.model.Pack;
 import com.hexad.intrw.service.IBakeryService;
 import com.hexad.intrw.service.IOrderValidationService;
 import com.hexad.intrw.service.IShippingStrategy;
@@ -8,26 +15,52 @@ import com.hexad.intrw.service.impl.SpaceOptimizedShippingStrategy;
 import com.hexad.intrw.util.CommonUtil;
 
 /*
- * This entrypoint to app
+ * This entry point to our bakery app
  */
+@Log
 public class BakeryMain {
 	public static void main(String[] args) {
 		//load the data structures
 		CommonUtil.bootstrapInitData();
 		IOrderValidationService validationService = new OrderValidationService();
-		String userOrder = "14 MB101";
+		String userOrder = "14 MB11";
+		log.info("order received : "+ userOrder);
 		try {
 			if(validationService.isValidOrder(userOrder)){
 				IShippingStrategy spaceOptimizedStrategy = new SpaceOptimizedShippingStrategy();
 				IBakeryService bakeryService = new BakeryService(spaceOptimizedStrategy, userOrder);
-				bakeryService.order();
+				log.info("ordering "+ userOrder);
+				Map<Pack, Integer> result = bakeryService.order();
+				
+				
+				if(result !=  null && !result.isEmpty()){
+					BigDecimal total = new BigDecimal(0);
+					for(Pack pack :result.keySet()){
+						BigDecimal price = pack.getPrice();
+						price = price.setScale(2, BigDecimal.ROUND_CEILING);
+						System.out.println(pack.getQuantity() + " * " + result.get(pack) + " " + price);
+						total = total.add(pack.getPrice().multiply(new BigDecimal(result.get(pack))));
+					}
+					System.out.println("Total Price for "+  userOrder + " is " + total.setScale(2,BigDecimal.ROUND_CEILING));
+				}
+				else{
+					throw new BakeryException(userOrder + " cannot be fulfilled. Please either increase or decrease quantity.");
+				}
+				
 			}
 			else {
+				log.severe("Validation failed for order : "+ userOrder);
 				throw new InvalidOrderException(userOrder + " is invalid order. Correct way to place order is 'Quantity ProductCode'. e.g. 10 MB11");
 			}
-		} catch ( Exception e) {
+		} 
+		catch ( InvalidOrderException e) {
 			System.out.println(e.getMessage());
 		}
-		
+		catch ( BakeryException e) {
+			System.out.println(e.getMessage());
+		}
+		catch ( Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

@@ -1,15 +1,29 @@
-package unittest.hexad.intrw.service.impl;
+package loadtest.hexad.intrw;
+
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.hexad.intrw.model.Pack;
 import com.hexad.intrw.service.IBakeryService;
 import com.hexad.intrw.service.IShippingStrategy;
 import com.hexad.intrw.service.impl.BakeryService;
 import com.hexad.intrw.service.impl.SpaceOptimizedShippingStrategy;
 import com.hexad.intrw.util.CommonUtil;
 
-public class BakeryServiceTest {
+/**
+ * This test runs the app for all products with quantity ranging from 0 to 100.
+ * Aim is to find a order quantity 
+ * 		which cannot be fulfilled OR
+ * 		which breaks the app 
+ * 
+ * For product and order quantity combination this test should print failures.
+ * 
+ * @author yr9kvt
+ *
+ */
+public class BakeryServiceLoadTest {
 
 	@Before
 	public void init(){
@@ -40,8 +54,20 @@ public class BakeryServiceTest {
 		for(int i=0; i<100; i++){
 			String order = i + space + code;
 			IBakeryService bakeryService = new BakeryService(spaceOptimizedStrategy, order);
-			bakeryService.order();
-			System.out.println();
+			Map<Pack, Integer> finalShipping = bakeryService.order();
+			if(finalShipping != null && !finalShipping.isEmpty()){
+				int total = 0;
+				for(Pack pack :finalShipping.keySet()){
+					total = total + (pack.getQuantity() * finalShipping.get(pack));
+				}
+				
+				if(total != i){
+					System.out.println("\n ************  Failure for "+ i + "************ \n");
+				}
+				/*else{
+					System.out.println("successful for " + i);
+				}*/
+			}
 		}
 	}
 }

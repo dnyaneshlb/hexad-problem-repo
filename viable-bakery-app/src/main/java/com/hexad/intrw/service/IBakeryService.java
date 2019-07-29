@@ -1,6 +1,10 @@
 package com.hexad.intrw.service;
 
+import java.util.Map;
+
+import com.hexad.intrw.model.Pack;
+
 public interface IBakeryService {
 	
-	public void order();
+	public Map<Pack, Integer> order();
 }

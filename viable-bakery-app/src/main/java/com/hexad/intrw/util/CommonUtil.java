@@ -1,11 +1,13 @@
 package com.hexad.intrw.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.hexad.intrw.model.BakeryProduct;
 import com.hexad.intrw.model.Pack;
 import com.hexad.intrw.model.Product;
+import com.hexad.intrw.model.ProductCode;
 
 public class CommonUtil {
 	
@@ -16,38 +18,38 @@ public class CommonUtil {
 	}
 
 	private static Product getCroissant() {
-		Pack pack1 = new Pack(3,5.95);
-		Pack pack2 = new Pack(5,9.95);
-		Pack pack3 = new Pack(9,16.99);
+		Pack pack1 = new Pack(3,new BigDecimal(5.95));
+		Pack pack2 = new Pack(5,new BigDecimal(9.95));
+		Pack pack3 = new Pack(9,new BigDecimal(16.99));
 		List<Pack> packs = new ArrayList<Pack>();
 		packs.add(pack3);
 		packs.add(pack2);
 		packs.add(pack1);
-		BakeryProduct croissant = new BakeryProduct("Croissant","CF", packs);
+		BakeryProduct croissant = new BakeryProduct("Croissant",ProductCode.CF, packs);
 		croissant.setSmallestPack(pack1);
 		return croissant;
 	}
 
 	private static Product getBlueberryMuffin() {
-		Pack pack1 = new Pack(2,9.95);
-		Pack pack2 = new Pack(5,16.95);
-		Pack pack3 = new Pack(8,24.99);
+		Pack pack1 = new Pack(2,new BigDecimal(9.95));
+		Pack pack2 = new Pack(5,new BigDecimal(16.95));
+		Pack pack3 = new Pack(8,new BigDecimal(24.99));
 		List<Pack> packs = new ArrayList<Pack>();
 		packs.add(pack3);
 		packs.add(pack2);
 		packs.add(pack1);
-		BakeryProduct blueberryMuffin = new BakeryProduct("Blueberry Muffin", "MB11", packs);
+		BakeryProduct blueberryMuffin = new BakeryProduct("Blueberry Muffin", ProductCode.MB11, packs);
 		blueberryMuffin.setSmallestPack(pack1);
 		return blueberryMuffin;
 	}
 
 	private static Product getVegemiteScroll() {
-		Pack pack1 = new Pack(3,6.99);
-		Pack pack2 = new Pack(5,8.99);
+		Pack pack1 = new Pack(3,new BigDecimal(6.99));
+		Pack pack2 = new Pack(5,new BigDecimal(8.99));
 		List<Pack> packs = new ArrayList<Pack>();
 		packs.add(pack2);
 		packs.add(pack1);
-		BakeryProduct vegemiteScroll = new BakeryProduct("Vegemite Scroll", "VS5", packs);
+		BakeryProduct vegemiteScroll = new BakeryProduct("Vegemite Scroll", ProductCode.VS5, packs);
 		vegemiteScroll.setSmallestPack(pack1);
 		return vegemiteScroll;
 	}
