@@ -17,6 +17,7 @@ public class SpaceOptimizedShippingStrategyTest {
 
 	/**
 	 * Functional Limitation Test cases
+	 * This test case tests if given quantity for given product code can be fulfilled.
 	 */
 	
 	@Before
@@ -25,21 +26,18 @@ public class SpaceOptimizedShippingStrategyTest {
 	}
 	
 	@Test
-	public void test_cannot_fulfill_order(){
+	public void test_cannot_fulfill_order_1(){
 		IShippingStrategy strategy = new SpaceOptimizedShippingStrategy();
 		Map<Pack, Integer> result = strategy.ship(1, CommonUtil.findOrderedProductByProductCode("MB11"));
 		assertEquals(null, result);
 	}
 	
 	
-	/**
-	 * Positive test cases
-	 */
 	@Test
-	public void test_fulfill_order(){
+	public void test_cannot_fulfill_order_2(){
 		IShippingStrategy strategy = new SpaceOptimizedShippingStrategy();
-		Map<Pack, Integer> result = strategy.ship(10, CommonUtil.findOrderedProductByProductCode("MB11"));
-		
+		Map<Pack, Integer> result = strategy.ship(7, CommonUtil.findOrderedProductByProductCode("CF"));
+		assertEquals(null, result);
 	}
 	
 }
