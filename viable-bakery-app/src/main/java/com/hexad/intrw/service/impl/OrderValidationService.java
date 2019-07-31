@@ -1,6 +1,7 @@
 package com.hexad.intrw.service.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.extern.java.Log;
 
@@ -44,7 +45,11 @@ public class OrderValidationService implements IOrderValidationService{
 			
 		
 		//check second element belongs to product code
-		if(!Arrays.asList(ProductCode.values()).contains(ProductCode.valueOf(code))) return false;
+		List<String> codes = new ArrayList<String>();
+		for(ProductCode pCode : ProductCode.values()){
+			codes.add(pCode.toString());
+		}
+		if(!codes.contains(code)) return false;
 		
 		log.info("Order validation completed sucessfully.");
 		return true;
